@@ -9,16 +9,29 @@ use Plack::Util::Accessor qw/filter base_dir/;
 use Plack::App::Proxy;
 use Plack::App::Directory;
 use Path::Class;
+use Regexp::Common qw/URI/;
 
 our $VERSION = '0.03';
 
-my $filename = qr/\/?(?:\w+?\.)+\w+$/;
 
 sub match_uri {
-    my ($env, $source_dir) = @_;
+    my ($env, $source) = @_;
 
-    if ( $env->{'REQUEST_URI'} =~ /$env->{'HTTP_HOST'}\/?$source_dir($filename)?/ ) {
-        return $1 || ($& =~ /($filename)/ && $1) || undef;
+    $env->{'REQUEST_URI'} =~ /$RE{URI}{HTTP}{-keep}/;
+    my $path = $6 or warn "$1 seems not as static file.";
+
+    # strip slases before/after source dir
+    $source =~ s/^\///;
+    $source =~ s/\/$//;
+
+    # make star and plus not greedy
+    $source =~ s/(\*|\+)$/$1?/;
+
+    if ( $path =~ s/$source\/?// ) {
+      return $path;
+    }
+    else {
+      return undef;
     }
 }
 
@@ -35,12 +48,15 @@ sub call {
     while( my ($host, $mapping) = each %filter ) {
 
         if ( $env->{'HTTP_HOST'} =~ /$host/ ) {
+
             for my $source_dir ( keys %{$mapping} ) {
+
                 if ( my $path = match_uri($env, $source_dir) ) {
                     my $dir = server_local($self->base_dir, $mapping->{$source_dir})->to_app;
                     $env->{PATH_INFO} = $path;
                     return $dir->($env);
                 }
+
             }
         }
     }

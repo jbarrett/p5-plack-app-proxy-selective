@@ -12,14 +12,16 @@ subtest 'test for match_uri' => sub {
         REQUEST_URI => 'http://google.com/script/hoge.js',
         HTTP_HOST => 'google.com',
     };
+    my $filename = 'hoge.js';
+
     my $source_dir = 'script';
-    is(Plack::App::Proxy::Selective::match_uri($env, $source_dir), '/hoge.js');
+    is(Plack::App::Proxy::Selective::match_uri($env, $source_dir), $filename);
 
     $source_dir = '/script';
-    is(Plack::App::Proxy::Selective::match_uri($env, $source_dir), '/hoge.js');
+    is(Plack::App::Proxy::Selective::match_uri($env, $source_dir), $filename);
 
     $source_dir = '/script/';
-    is(Plack::App::Proxy::Selective::match_uri($env, $source_dir), 'hoge.js');
+    is(Plack::App::Proxy::Selective::match_uri($env, $source_dir), $filename);
 
     done_testing;
 };
@@ -30,7 +32,7 @@ subtest 'test for match_uri with multiple suffixes' => sub {
         HTTP_HOST => 'google.com',
     };
     my $source_dir = 'script';
-    is(Plack::App::Proxy::Selective::match_uri($env, $source_dir), '/hoge.user.js');
+    is(Plack::App::Proxy::Selective::match_uri($env, $source_dir), 'hoge.user.js');
 
     done_testing;
 };
@@ -41,7 +43,7 @@ subtest 'test for match_uri with greedy regex' => sub {
         HTTP_HOST => 'google.com',
     };
     my $source_dir = 'script.*';
-    is(Plack::App::Proxy::Selective::match_uri($env, $source_dir), '/hoge.js');
+    is(Plack::App::Proxy::Selective::match_uri($env, $source_dir), 'hoge.js');
 
     done_testing;
 };
