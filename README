@@ -1,27 +1,35 @@
-This is Perl module Plack::App::Proxy::Selective.
+NAME
+    Plack::App::Proxy::Selective - Proxy app that serves selected paths from
+    local dir.
 
-INSTALLATION
+SYNOPSIS
+      use Plack::App::Proxy::Selective;
+      use Path::Class;
 
-Plack::App::Proxy::Selective installation is straightforward. If your CPAN shell is set up,
-you should just be able to do
+      Plack::App::Proxy::Selective->new(
+          filter => +{
+              'google.com' => +{
+                  '/style' => 'css',
+              },
+              'www.yahoo.co.jp' => +{
+                  'js' => 'script',
+              }
+          },
+          base_dir => file(__FILE__)->dir,
+      )->to_app;
 
-    % cpan Plack::App::Proxy::Selective
+DESCRIPTION
+    Plack::App::Proxy::Selective behave as proxy that serves files from
+    local disk, instead of some proxied remote files. You can specify hosts,
+    remote path and local directory with 'filter' param as hash reference.
+    Hosts and remote path can include regular expressions like '/script/.*'
+    or 'script/.*.js'.
 
-Download it, unpack it, then build it as per the usual:
+AUTHOR
+    zentooo <ankerasoy@gmail.com>
 
-    % perl Makefile.PL
-    % make && make test
+SEE ALSO
+LICENSE
+    This library is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
 
-Then install it:
-
-    % make install
-
-DOCUMENTATION
-
-Plack::App::Proxy::Selective documentation is available as in POD. So you can do:
-
-    % perldoc Plack::App::Proxy::Selective
-
-to read the documentation online with your favorite pager.
-
-zentooo

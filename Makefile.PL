@@ -1,5 +1,6 @@
 use inc::Module::Install;
 name 'Plack-App-Proxy-Selective';
+readme_from 'lib/Plack/App/Proxy/Selective.pm';
 all_from 'lib/Plack/App/Proxy/Selective.pm';
 
 requires 'Plack::Component';
