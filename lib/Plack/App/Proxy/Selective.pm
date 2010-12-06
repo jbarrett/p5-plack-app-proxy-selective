@@ -11,7 +11,7 @@ use Plack::App::Directory;
 use Path::Class;
 use Regexp::Common qw/URI/;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 my $statics;
 
