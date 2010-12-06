@@ -13,6 +13,7 @@ use Regexp::Common qw/URI/;
 
 our $VERSION = '0.03';
 
+my $statics;
 
 sub match_uri {
     my ($env, $source) = @_;
@@ -65,6 +66,7 @@ sub call {
     $env->{'plack.proxy.url'} = $env->{'REQUEST_URI'};
     return $proxy->($env);
 }
+
 
 1;
 __END__
