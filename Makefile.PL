@@ -8,6 +8,7 @@ requires 'Plack::Util::Accessor';
 requires 'Plack::App::Directory';
 requires 'Plack::App::Proxy';
 requires 'Path::Class';
+requires 'Regexp::Common';
 
 tests 't/*.t';
 author_tests 'xt';
