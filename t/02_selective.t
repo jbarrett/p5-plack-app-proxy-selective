@@ -6,7 +6,6 @@ use Path::Class;
 use HTTP::Request;
 
 use t::Util;
-use Data::Dump qw/dump/;
 
 use Plack::App::Proxy::Selective;
 
