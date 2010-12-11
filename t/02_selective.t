@@ -33,7 +33,6 @@ subtest 'test with normal string filter' => sub {
     test_app_dir(sub {
         my $cb = shift;
         my $res = $cb->(HTTP::Request->new(GET => 'js/happy_cpan_testers.js'));
-        warn dump $res;
     }, $selective);
 
     done_testing;
