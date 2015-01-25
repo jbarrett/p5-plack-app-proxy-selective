@@ -16,5 +16,4 @@ author_tests 'xt';
 test_requires 'Test::More' => '0.96';
 test_requires 'Test::Most';
 auto_set_repository;
-auto_include;
 WriteAll;
